@@ -38,20 +38,21 @@ Common edits:
 
 ## Deploy (Cloudflare Workers, static assets)
 
-**Option A: Git integration (recommended).** In the Cloudflare dashboard go to
-*Workers & Pages → Create → Import a repository*, select this repo, and set:
-- Build command: `npm run build`
-- Deploy command: `npx wrangler deploy`
+**Push to `main` and it deploys.** The `sistemi-website` Worker is connected to this
+repo (Workers Builds), so Cloudflare runs `npm run build` then `npx wrangler deploy`
+on every push to `main`. Build logs: *Workers & Pages → sistemi-website → Deployments*.
 
-Every push to `main` deploys; other branches get preview URLs.
-
-**Option B: from your machine.**
+To deploy from your machine instead (e.g. to test something quickly):
 
 ```bash
-npx wrangler login
+npx wrangler login   # first time only
 npm run deploy
 ```
 
-Config is in `wrangler.jsonc`. Once it's live on the `*.workers.dev` URL, add the
-custom domains `www.sistemi.ca` and `sistemi.ca` under the Worker's
-*Settings → Domains & Routes*, then remove the custom domain from Google Sites.
+Config is in `wrangler.jsonc`. It serves:
+- `https://www.sistemi.ca`: the live site (custom domain, set in `wrangler.jsonc`)
+- `https://sistemi-website.sistemipx.workers.dev`: test address, same content
+
+`sistemi.ca` (no `www`) is redirected to `https://www.sistemi.ca` by a Redirect Rule on
+the `sistemi.ca` zone (*Rules → Redirect Rules*), with *Always Use HTTPS* on. DNS,
+including the Google Workspace email records (MX, SPF, DKIM), is managed in Cloudflare.
