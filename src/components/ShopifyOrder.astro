@@ -17,12 +17,14 @@ const mainProducts = [
     image: '/images/p1150d-hero.webp',
     alt: 'P1150D power supply with built-in display',
     badge: 'Most popular',
+    note: 'Includes Probes',
   },
   {
     id: '9254799966452', // P1150 Power Supply
     image: '/images/p1150-hero.webp',
     alt: 'P1150 power supply',
     badge: null,
+    note: 'Includes Probes',
   },
 ];
 
@@ -39,6 +41,7 @@ const accessories = [
       <div class:list={['unit', { featured: p.badge }]}>
         {p.badge && <span class="badge">{p.badge}</span>}
         <img src={p.image} alt={p.alt} width="1600" height="1067" loading="lazy" />
+        {p.note && <p class="note">{p.note}</p>}
         <div class="shopify-product" data-product-id={p.id} data-variant="main"></div>
       </div>
     ))}
@@ -129,6 +132,12 @@ const accessories = [
     border-radius: 8px;
     background: radial-gradient(ellipse at center, #2b5d75 0%, var(--c-dark) 75%);
     margin-bottom: 8px;
+  }
+  .note {
+    margin: 4px 0 0;
+    text-align: center;
+    color: var(--c-teal);
+    font-weight: 700;
   }
   .badge {
     position: absolute;
