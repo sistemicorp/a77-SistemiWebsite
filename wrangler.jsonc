@@ -4,6 +4,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "sistemi-website",
   "compatibility_date": "2026-11-01",
+  // Serves www.sistemi.ca; Cloudflare creates the DNS record and certificate.
+  // Keep the sistemi-website.<subdomain>.workers.dev test address too.
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "www.sistemi.ca", "custom_domain": true }
+  ],
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page",
