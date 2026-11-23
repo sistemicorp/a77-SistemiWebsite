@@ -4,17 +4,35 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 interface Props {
+  /** Page title; " | Sistemi" is appended unless it already mentions Sistemi. */
   title?: string;
+  /** Shown under the title in search results. Aim for ~150 characters. */
   description?: string;
+  /** Optional schema.org structured data (object or array of objects). */
+  jsonLd?: object | object[];
 }
 
 const {
   title,
-  description = 'Sistemi — adding value to your development with tools and strategies. Home of the P1150 wide dynamic range current measurement power supply.',
+  description = 'Sistemi builds tools for embedded developers, including the P1150 power profiler for current measurement and battery current profiling of IoT devices.',
+  jsonLd,
 } = Astro.props;
 
-const fullTitle = title ? `${title} | Sistemi` : 'Sistemi';
+const fullTitle = !title ? 'Sistemi' : title.includes('Sistemi') ? title : `${title} | Sistemi`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Site-wide structured data: who Sistemi is.
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://www.sistemi.ca/#org',
+  name: 'Sistemi',
+  url: 'https://www.sistemi.ca/',
+  logo: 'https://www.sistemi.ca/favicon.png',
+  email: 'info@sistemi.ca',
+  sameAs: ['https://github.com/sistemicorp'],
+};
+const structuredData = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 ---
 
 <!doctype html>
@@ -35,6 +53,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {structuredData.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
     <slot name="head" />
   </head>
   <body>

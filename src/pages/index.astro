@@ -3,13 +3,14 @@ import Base from '../layouts/Base.astro';
 
 const products = [
   {
-    name: 'P1150',
+    name: 'P1150 Power Profiler',
     image: '/images/p1150-hero.webp',
     alt: 'P1150 current measurement power supply',
     points: [
       'Wide Dynamic Range Current Measurement Power Supply — P1150 and P1150D (with display)',
-      'Measures deep sleep currents and high active currents for profiling Battery Life',
-      "Designed for the Firmware Developer's desktop",
+      'Measures deep sleep currents and high active currents for Battery Current Profiling',
+      'Sources and sinks current like a Source Measurement Unit (SMU), including battery charging tests',
+      "Designed for the Embedded Firmware Developer's desktop",
     ],
     href: '/p1150',
   },
@@ -28,7 +29,10 @@ const products = [
 ];
 ---
 
-<Base>
+<Base
+  title="Sistemi: Current Measurement & Test Tools for Embedded Developers"
+  description="Sistemi makes the P1150 power profiler: a power supply and SMU for current measurement and battery current profiling of embedded and IoT devices."
+>
   <section class="hero">
     <div class="container hero-inner">
       <div>

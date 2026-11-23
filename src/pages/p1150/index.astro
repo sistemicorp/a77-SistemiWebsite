@@ -13,7 +13,7 @@ const models = [
     price: '$949',
     image: '/images/p1150d-hero.webp',
     alt: 'P1150D with built-in display',
-    desc: 'Everything in the P1150, plus a built-in display and front-panel control knob.',
+    desc: 'Everything in the P1150, plus a built-in display and front-panel control knob. Fully autonomous operation, does not require a PC.',
     featured: true,
   },
   {
@@ -24,6 +24,76 @@ const models = [
     alt: 'P1150 power supply',
     desc: 'The original P1150, controlled from the Web App, CLI or Python. The non-display version is suitable for CI and automation environments.',
     featured: false,
+  },
+];
+
+const seoTitle = 'P1150 Power Profiler & SMU for Battery Current Profiling';
+const seoDescription =
+  'P1150 and P1150D: power supply and source measurement unit (SMU) for embedded developers. Current measurement from 1µA to 3.2A and battery charging tests.';
+
+const site = 'https://www.sistemi.ca';
+const productLd = (name: string, sku: string, price: string, image: string, description: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name,
+  sku,
+  mpn: sku,
+  image: `${site}${image}`,
+  description,
+  category: 'Electronic test equipment > Power profiler / source measurement unit',
+  brand: { '@type': 'Brand', name: 'Sistemi' },
+  manufacturer: { '@id': `${site}/#org` },
+  offers: {
+    '@type': 'Offer',
+    url: `${site}/p1150/`,
+    priceCurrency: 'CAD',
+    price,
+    availability: 'https://schema.org/InStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    seller: { '@id': `${site}/#org` },
+  },
+});
+const jsonLd = [
+  productLd(
+    'P1150D Power Supply w/Display',
+    'P1150D',
+    '949.00',
+    '/images/og-p1150d.jpg',
+    'Wide dynamic range current measurement power supply with built-in display, for battery current profiling of embedded and IoT devices. Measures 1µA to 3200mA, sources and sinks current (two-quadrant SMU), 0.5V to 17V output.',
+  ),
+  productLd(
+    'P1150 Power Supply',
+    'P1150',
+    '849.00',
+    '/images/p1150-hero.webp',
+    'Wide dynamic range current measurement power supply for battery current profiling of embedded and IoT devices, controlled from the Web App, CLI or Python. Suited to CI and automation. Two-quadrant SMU, 1µA to 3200mA.',
+  ),
+];
+
+const uses = [
+  {
+    title: 'Battery Current Profiling',
+    text: 'See exactly where the charge goes: deep sleep, wake-ups, radio bursts and boot, all in one capture. Turn the profile into projected battery life for your embedded firmware.',
+  },
+  {
+    title: 'Current Measurement',
+    text: 'Precise current measurement from 1µA to 3200mA on a single range, with no shunt switching artifacts, so sleep current and active peaks are both accurate.',
+  },
+  {
+    title: 'Programmable Power Supply',
+    text: 'A clean, adjustable 0.5V to 17.0V power supply that stands in for the battery, so every test runs at a known, repeatable voltage.',
+  },
+  {
+    title: 'Source Measurement Unit (SMU)',
+    text: 'Two-quadrant operation sources and sinks current while measuring it, giving you SMU-style measurements on the developer\'s desktop.',
+  },
+  {
+    title: 'Battery Charging',
+    text: 'Because it can sink current, the P1150 can stand in for the battery on a charging circuit and measure the charging current your design delivers.',
+  },
+  {
+    title: 'CI & Automation',
+    text: 'Drive it from Python, the CLI or an AI agent (MCP) to catch power regressions in continuous integration and on the lab bench.',
   },
 ];
 
@@ -53,24 +123,21 @@ const features = [
     after: ' with a sub-1µA noise floor. Resolve currents to 1µA without software averaging.',
   },
   {
-    title: 'Event Correlation',
-    highlight: 'Analog and Digital inputs',
-    before: 'Use ',
-    after: ' to trigger and correlate hardware events directly to the current profile.',
+    title: 'Auxiliary Inputs',
+    highlight: 'two digital (D0, D1) and one analog (A0)',
+    before: 'Use the ',
+    after: ' auxiliary inputs for triggering and correlating current profiles to firmware actions.',
   },
   {
     title: 'Two-Quadrant Operation',
     highlight: 'SINK and SRC current',
     before: 'Can ',
-    after: ' (two quadrant operation).',
+    after: ' (two quadrant operation). Works like a compact Source Measurement Unit (SMU), so it can also test battery charging circuits.',
   },
 ];
 ---
 
-<Base
-  title="P1150"
-  description="The P1150 is a wide dynamic range current measurement power supply for profiling current of battery powered (IoT) devices with deep sleep modes and high current active states."
->
+<Base title={seoTitle} description={seoDescription} jsonLd={jsonLd}>
   <section class="page-head">
     <div class="container intro">
       <div>
@@ -78,8 +145,9 @@ const features = [
         <h1>P1150D <span class="h1-sub">with Display</span></h1>
         <p class="sub">
           The P1150 is a wide dynamic range current measurement power supply for profiling current of battery
-          powered (IoT) devices with deep sleep modes and high current active states. The P1150D adds a built-in
-          display and front-panel control.
+          powered (IoT) devices with deep sleep modes and high current active states. Think of it as a compact
+          source measurement unit (SMU) for embedded developers. The P1150D adds a built-in display and
+          front-panel control.
         </p>
         <div class="price">
           <div class="amount">$949 <span>CAN</span></div>
@@ -124,6 +192,16 @@ const features = [
           </div>
         ))}
       </div>
+
+      <h2 class="features-title">Built for embedded developers</h2>
+      <div class="uses">
+        {uses.map((u) => (
+          <div class="use">
+            <h3>{u.title}</h3>
+            <p>{u.text}</p>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -137,7 +215,37 @@ const features = [
   <section class="section">
     <div class="container">
       <h2>P1150 PC User Interface</h2>
-      <img src="/images/p1150-gui.png" alt="P1150 PC user interface showing an oscilloscope view of current" width="1280" height="786" class="shot" loading="lazy" />
+      <div class="gui-points">
+        <div>
+          <h3>Log-scale plotting</h3>
+          <p>
+            Plot current on a log scale to see very small currents alongside large ones, from µA sleep current to
+            mA radio bursts in the same view, without having to zoom in continuously and lose the scope of the plot.
+          </p>
+        </div>
+        <div>
+          <h3>Auxiliary inputs on the same timeline</h3>
+          <p>
+            The D0 and D1 digital inputs and the A0 analog input are plotted with the current, so you can trigger on
+            a firmware action and see exactly what it costs.
+          </p>
+        </div>
+        <div>
+          <h3>Logger &amp; Oscilloscope views</h3>
+          <p>
+            Use the Logger to capture long running profiles, or the Oscilloscope to trigger on repetitive events
+            like radio transmits.
+          </p>
+        </div>
+        <div>
+          <h3>mAhr battery life estimation</h3>
+          <p>
+            Specify your battery capacity and type, and the mAhr plot simulates its discharge voltage curve against
+            the average current, giving you an estimate of battery life.
+          </p>
+        </div>
+      </div>
+      <img src="/images/p1150-gui.png" alt="P1150 user interface: oscilloscope view of battery current profiling with cursors and current, analog and digital channels" width="2121" height="1069" class="shot" loading="lazy" />
     </div>
   </section>
 
@@ -228,28 +336,42 @@ const features = [
   .btn--ghost.light { color: #fff; border-color: rgba(255, 255, 255, 0.6); }
   .btn--ghost.light:hover { background: #fff; color: var(--c-dark); border-color: #fff; }
 
-  .features {
+  .features,
+  .uses {
     display: grid;
     grid-template-columns: 1fr; /* phone: one per row */
     gap: 16px;
   }
   @media (min-width: 560px) {
-    .features { grid-template-columns: repeat(2, 1fr); } /* tablet: 3 rows of 2 */
+    .features, .uses { grid-template-columns: repeat(2, 1fr); } /* tablet: 3 rows of 2 */
   }
   @media (min-width: 900px) {
-    .features { grid-template-columns: repeat(3, 1fr); } /* desktop: 2 rows of 3 */
+    .features, .uses { grid-template-columns: repeat(3, 1fr); } /* desktop: 2 rows of 3 */
   }
-  .feature {
+  .feature,
+  .use {
     background: #fff;
     border: 1px solid var(--c-border);
     border-top: 4px solid var(--c-teal);
     border-radius: var(--radius);
     padding: 18px;
   }
-  .feature h3 { font-size: 1.05rem; }
-  .feature p { margin: 0; color: var(--c-muted); font-size: 0.95rem; }
+  .use { border-top-width: 1px; background: var(--c-bg-alt); }
+  .feature h3, .use h3 { font-size: 1.05rem; }
+  .feature p, .use p { margin: 0; color: var(--c-muted); font-size: 0.95rem; }
   .feature strong { color: #367d8c; }
 
+  .gui-points {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px 40px;
+    margin-bottom: 28px;
+  }
+  @media (min-width: 760px) {
+    .gui-points { grid-template-columns: repeat(2, 1fr); } /* 2 x 2 */
+  }
+  .gui-points h3 { font-size: 1.05rem; margin-bottom: 0.3em; }
+  .gui-points p { color: var(--c-muted); margin: 0; }
   .shot { width: 100%; border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); }
   .narrow { max-width: 860px; }
   .callout {

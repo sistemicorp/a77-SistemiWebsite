@@ -1,7 +1,8 @@
 ---
 layout: ../../layouts/Prose.astro
-title: P1150 FAQ
-description: Frequently asked questions about the P1150 current measurement power supply.
+title: "P1150 FAQ: Current Measurement, Calibration & Automation"
+heading: P1150 FAQ
+description: Answers about the P1150 power profiler, including self calibration, in-rush current, long battery current traces, Python automation and using it with AI agents.
 ---
 
 ## Why is the P1150 Different?
