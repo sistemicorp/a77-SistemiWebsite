@@ -1,0 +1,86 @@
+---
+import Base from '../../layouts/Base.astro';
+import ContactNote from '../../components/ContactNote.astro';
+
+const cliVersion = '0.10.41';
+const cliVer = cliVersion.replaceAll('.', '_');
+const cliBase = `https://storage.googleapis.com/pub_p1150/cli_${cliVer}`;
+---
+
+<Base title="P1150 Downloads" description="P1150 Web App, command line client, and Python driver downloads.">
+  <section class="page-head">
+    <div class="container">
+      <h1>P1150 Downloads</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ContactNote />
+
+      <div class="cards">
+        <article class="card featured">
+          <span class="badge">NEW</span>
+          <h2>P1150 Web App</h2>
+          <p>Replaces the GUI Client. Runs directly in your browser.</p>
+          <p class="muted">Requires Web Serial, therefore Chrome or Edge browsers.</p>
+          <a class="btn" href="https://sistemicorp.github.io/a73-PxxxxWASMGUI/">Launch Web App</a>
+          <p class="url"><a href="https://sistemicorp.github.io/a73-PxxxxWASMGUI/">https://sistemicorp.github.io/a73-PxxxxWASMGUI/</a></p>
+        </article>
+
+        <article class="card">
+          <h2>PC CLI Client <span class="ver">v{cliVersion}</span></h2>
+          <p>
+            The Command Line Interface (CLI) client can be used for automated testing with scripts and other lab bench
+            frameworks. The CLI can be used with frameworks that can spawn a process to the host OS.
+          </p>
+          <p class="muted">Use argument <code>--help</code> for CLI usage.</p>
+          <div class="btn-row">
+            <a class="btn" href={`${cliBase}/pxxxx_cli_winx86_${cliVer}.exe`}>Windows</a>
+            <a class="btn" href={`${cliBase}/pxxxx_cli_linux_${cliVer}`}>Ubuntu/Linux</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>P1150 Python GitHub</h2>
+          <p>P1150 can be automated with Python.</p>
+          <p>MCP Agent also available.</p>
+          <a class="btn btn--ghost" href="https://github.com/sistemicorp/P1150">github.com/sistemicorp/P1150</a>
+        </article>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    position: relative;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .card .btn-row, .card > .btn { margin-top: auto; }
+  .card.featured { border: 2px solid var(--c-teal); background: linear-gradient(180deg, rgba(74, 159, 177, 0.08), transparent 60%); }
+  .badge {
+    background: var(--c-teal);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .ver { font-size: 0.9rem; font-weight: 400; color: var(--c-muted); }
+  .muted { color: var(--c-muted); font-size: 0.95rem; }
+  .url { font-size: 0.85rem; margin: 12px 0 0; word-break: break-all; }
+  code { background: var(--c-bg-alt); padding: 0.1em 0.4em; border-radius: 4px; }
+</style>

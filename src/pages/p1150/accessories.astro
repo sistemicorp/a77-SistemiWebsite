@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import ContactNote from '../../components/ContactNote.astro';
+
+const accessories = [
+  {
+    name: 'Auxiliary Ports BNC Interposer',
+    image: '/images/accessories/bnc-interposer.jpg',
+    alt: 'P1150 sitting on the BNC interposer board with three BNC connectors',
+    price: '$49',
+    items: ['Allows standard BNC Cables to be used for Auxiliary Inputs D0/1 & A0.'],
+    notes: [],
+  },
+  {
+    name: 'Additional Probes',
+    image: '/images/accessories/additional-probes.jpg',
+    alt: 'Additional probe cables and terminal connect block',
+    price: '$49',
+    items: [
+      '1 AWG14 Standard Probe',
+      '1 AWG18 Light Current (<500mA) Probe — more flexible than the AWG14 standard probe',
+      '1 Terminal Connect Block',
+    ],
+    notes: [
+      'If you search for "CCTV Power cables" you will find several sources of these cables and then can make your own.',
+    ],
+  },
+  {
+    name: 'Locking AUX Wire Harness',
+    image: '/images/accessories/locking-aux-harness.jpg',
+    alt: 'Locking auxiliary probe wire harnesses',
+    price: '$49',
+    items: ['2 Locking AUX Probe harnesses'],
+    notes: [
+      'You can make your own locking harness with these part numbers, Molex 50-57-9704 & 16-02-0069, ZipWires Zw-FF-20',
+      "You don't need to use a locking harness, ZipWires can be directly used, as included in the original kit.",
+    ],
+  },
+];
+---
+
+<Base title="P1150 Accessories" description="Accessories for the P1150: BNC interposer, additional probes and locking AUX harness.">
+  <section class="page-head">
+    <div class="container">
+      <h1>P1150 Accessories</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ContactNote />
+      <div class="list">
+        {accessories.map((a) => (
+          <article class="item">
+            <div class="img"><img src={a.image} alt={a.alt} loading="lazy" /></div>
+            <div class="body">
+              <h2>{a.name}</h2>
+              <div class="price">{a.price} <span>plus applicable taxes and shipping &amp; handling</span></div>
+              <ul>{a.items.map((i) => <li>{i}</li>)}</ul>
+              {a.notes.length > 0 && (
+                <div class="notes">
+                  <strong>Note:</strong>
+                  <ul>{a.notes.map((n) => <li>{n}</li>)}</ul>
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .list { display: grid; gap: 28px; }
+  .item {
+    display: grid;
+    gap: 20px;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .img img {
+    width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: var(--c-bg-alt);
+  }
+  .price { font-size: 1.5rem; font-weight: 900; color: var(--c-accent); margin-bottom: 10px; }
+  .price span { font-size: 0.85rem; font-weight: 400; color: var(--c-muted); }
+  ul { padding-left: 1.2em; margin: 0 0 1em; }
+  li { margin: 0.3em 0; }
+  .notes { background: var(--c-bg-alt); border-radius: 8px; padding: 12px 16px; font-size: 0.92rem; color: var(--c-muted); }
+  .notes ul { margin: 0.4em 0 0; }
+
+  @media (min-width: 760px) {
+    .item { grid-template-columns: 2fr 3fr; align-items: center; padding: 28px; }
+  }
+</style>

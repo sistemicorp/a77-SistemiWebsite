@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+
+const team = [
+  { name: 'Martin Guthrie', role: 'Founder', photo: '/images/team/martin-guthrie.jpg' },
+  { name: 'Sean Simmons', role: 'Architecture', photo: '/images/team/sean-simmons.jpg' },
+  { name: 'Andrew Oaks', role: 'Manufacturing Products Lead / Developer', photo: '/images/team/andrew-oaks.jpg' },
+  { name: 'Josh Haid', role: 'Software Technical Lead', photo: '/images/team/josh-haid.jpg' },
+  { name: 'Justin Kim', role: 'Hardware Technical Lead', photo: '/images/team/justin-kim.jpg' },
+];
+---
+
+<Base title="Team" description="The team behind Sistemi.">
+  <section class="page-head">
+    <div class="container">
+      <h1>Team</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid">
+        {team.map((m) => (
+          <div class="member">
+            <img src={m.photo} alt={`Photo of ${m.name}`} width="300" height="300" loading="lazy" />
+            <h2>{m.name}</h2>
+            <p>{m.role}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 32px 24px;
+  }
+  .member { text-align: center; }
+  .member img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
+  .member h2 { font-size: 1.15rem; margin-bottom: 0.2em; }
+  .member p { color: var(--c-muted); font-size: 0.95rem; margin: 0; }
+</style>

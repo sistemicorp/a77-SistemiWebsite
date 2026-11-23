@@ -1,0 +1,12 @@
+# build output
+dist/
+.astro/
+.wrangler/
+
+# dependencies
+node_modules/
+
+# local env / editor
+.env
+.env.*
+.DS_Store

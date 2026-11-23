@@ -1,0 +1,55 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container inner">
+    <div>
+      <div class="brand">
+        <img src="/logo.svg" alt="" width="22" height="22" />
+        <span>SISTEMI</span>
+      </div>
+      <p class="tag">Adding value to your development with Tools and Strategies.</p>
+    </div>
+    <div class="links">
+      <a href="mailto:info@sistemi.ca">info@sistemi.ca</a>
+      <a href="https://github.com/sistemicorp">GitHub</a>
+    </div>
+  </div>
+  <div class="container copy">© {year} Sistemi. All rights reserved.</div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--c-dark);
+    color: #b9c6cc;
+    padding: 40px 0 24px;
+    font-size: 0.95rem;
+  }
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+  }
+  .brand img { filter: invert(1); }
+  .tag { margin: 10px 0 0; }
+  .links { display: flex; flex-direction: column; gap: 6px; }
+  .links a { color: #fff; text-decoration: none; }
+  .links a:hover { text-decoration: underline; }
+  .copy {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.85rem;
+    color: #7f8f97;
+  }
+</style>

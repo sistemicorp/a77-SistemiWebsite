@@ -1,0 +1,113 @@
+---
+import Base from '../layouts/Base.astro';
+
+const products = [
+  {
+    name: 'P1150',
+    image: '/images/p1150-hero.webp',
+    alt: 'P1150 current measurement power supply',
+    points: [
+      'Wide Dynamic Range Current Measurement Power Supply — P1150 and P1150D (with display)',
+      'Measures deep sleep currents and high active currents for profiling Battery Life',
+      "Designed for the Firmware Developer's desktop",
+    ],
+    href: '/p1150',
+  },
+  {
+    name: 'Lente/Prism Manufacturing Test Platform',
+    image: '/images/lente-fixture.jpg',
+    alt: 'Manufacturing test fixture with a circuit board under test',
+    points: [
+      'A Do-It-Yourself (DIY) framework',
+      'Python based test scripts',
+      'Backend Postgres Database',
+      'All the common tasks related to a deployed test system are done',
+    ],
+    href: 'https://github.com/sistemicorp/scripts',
+  },
+];
+---
+
+<Base>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <h1>Welcome to Sistemi</h1>
+        <p class="lead">Adding value to your development with Tools and Strategies — How can I help?</p>
+        <div class="btn-row">
+          <a class="btn" href="/p1150">Explore the P1150</a>
+          <a class="btn btn--ghost light" href="mailto:info@sistemi.ca">Get in touch</a>
+        </div>
+      </div>
+      <img src="/images/p1150d-hero.webp" alt="P1150D power supply with display" width="1600" height="1067" class="hero-img" fetchpriority="high" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {products.map((p, i) => (
+        <article class:list={['product', { reverse: i % 2 === 1 }]}>
+          <div class:list={["product-img", { dark: p.image.endsWith(".webp") }]}>
+            <img src={p.image} alt={p.alt} loading="lazy" />
+          </div>
+          <div class="product-body">
+            <h2>{p.name}</h2>
+            <ul>
+              {p.points.map((pt) => <li>{pt}</li>)}
+            </ul>
+            <a class="btn" href={p.href}>Find out more</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    background: radial-gradient(1200px 500px at 80% 40%, #2b5d75 0%, transparent 60%),
+      linear-gradient(135deg, var(--c-dark) 0%, #1d3341 100%);
+    color: #fff;
+    padding: 64px 0;
+    overflow: hidden;
+  }
+  .hero-inner {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+  }
+  .lead { font-size: 1.25rem; color: #c9d6dc; max-width: 34ch; }
+  .hero-img {
+    width: 100%;
+    max-width: 600px;
+    justify-self: center;
+    /* fade the render's soft shadow out to the edges so no box shows */
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at center, #000 70%, transparent 100%);
+    mask-image: radial-gradient(ellipse 50% 50% at center, #000 70%, transparent 100%);
+  }
+  .btn--ghost.light { color: #fff; border-color: rgba(255, 255, 255, 0.6); }
+  .btn--ghost.light:hover { background: #fff; color: var(--c-dark); border-color: #fff; }
+
+  .product {
+    display: grid;
+    gap: 28px;
+    align-items: center;
+    padding: 32px 0;
+  }
+  .product + .product { border-top: 1px solid var(--c-border); }
+  .product-img.dark img { background: radial-gradient(ellipse at center, #2b5d75 0%, var(--c-dark) 75%); }
+  .product-img img {
+    width: 100%;
+    border-radius: var(--radius);
+    background: var(--c-bg-alt);
+  }
+  .product-body ul { padding-left: 1.2em; margin: 0 0 1.4em; color: var(--c-muted); }
+  .product-body li { margin: 0.35em 0; }
+
+  @media (min-width: 820px) {
+    .hero { padding: 88px 0; }
+    .hero-inner { grid-template-columns: 1.1fr 1fr; }
+    .product { grid-template-columns: 1fr 1fr; gap: 56px; padding: 48px 0; }
+    .product.reverse .product-img { order: 2; }
+  }
+</style>

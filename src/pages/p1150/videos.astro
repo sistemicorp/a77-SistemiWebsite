@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import ContactNote from '../../components/ContactNote.astro';
+import YouTube from '../../components/YouTube.astro';
+
+// Add new videos here (YouTube video IDs).
+const videos = [
+  { id: 'MyzqfXhWhrk', title: 'P1150 video' },
+  { id: 'H-MPFAvc2vM', title: 'P1150 video' },
+];
+---
+
+<Base title="P1150 Videos" description="Videos showing the P1150 current measurement power supply in use.">
+  <section class="page-head">
+    <div class="container">
+      <h1>P1150 Videos</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ContactNote />
+      <div class="grid">
+        {videos.map((v) => <YouTube id={v.id} title={v.title} />)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 24px;
+  }
+</style>

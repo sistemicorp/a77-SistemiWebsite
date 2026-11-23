@@ -1,0 +1,159 @@
+---
+// Shopify Buy Button order section.
+//
+// Each product is its own Shopify "product" component, so we control the order
+// and layout here. All components share one cart.
+//
+// Main units show our own render (images in /public/images) with Shopify's
+// title/price/add-to-cart below it. Accessories use their Shopify product image.
+//
+// To find product IDs: Shopify admin → Products → open product → the number at
+// the end of the URL. The storefront access token is a public, read-only token
+// intended for browser use.
+
+const mainProducts = [
+  {
+    id: '9641361080564', // P1150D Power Supply w/Display
+    image: '/images/p1150d-hero.webp',
+    alt: 'P1150D power supply with built-in display',
+    badge: 'Most popular',
+  },
+  {
+    id: '9254799966452', // P1150 Power Supply
+    image: '/images/p1150-hero.webp',
+    alt: 'P1150 power supply',
+    badge: null,
+  },
+];
+
+const accessories = [
+  '9256614494452', // P1150 BNC Interposer Board
+  '9256615641332', // P1150 Probe Kit
+  '9256621932788', // P1150 Aux Probe
+];
+---
+
+<div class="order">
+  <div class="main">
+    {mainProducts.map((p) => (
+      <div class:list={['unit', { featured: p.badge }]}>
+        {p.badge && <span class="badge">{p.badge}</span>}
+        <img src={p.image} alt={p.alt} width="1600" height="1067" loading="lazy" />
+        <div class="shopify-product" data-product-id={p.id} data-variant="main"></div>
+      </div>
+    ))}
+  </div>
+
+  <h3 class="acc-title">Accessories</h3>
+  <div class="accessories">
+    {accessories.map((id) => <div class="acc shopify-product" data-product-id={id} data-variant="accessory"></div>)}
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+    if (window.ShopifyBuy && window.ShopifyBuy.UI) {
+      init();
+    } else {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = scriptURL;
+      script.onload = init;
+      document.head.appendChild(script);
+    }
+
+    var button = {
+      'background-color': '#1e6c93',
+      ':hover': { 'background-color': '#175573' },
+      ':focus': { 'background-color': '#175573' },
+      'border-radius': '999px',
+      'padding-left': '28px',
+      'padding-right': '28px',
+    };
+    var light = { color: '#f5f5f5' };
+
+    function productOptions(variant) {
+      return {
+        product: {
+          contents: { img: variant !== 'main' },
+          text: { button: 'Add to cart' },
+          styles: {
+            product: { 'text-align': 'center', 'max-width': '100%', 'margin-left': '0', 'margin-bottom': '0' },
+            title: variant === 'main' ? { color: '#f5f5f5', 'font-size': '20px' } : light,
+            price: variant === 'main' ? { color: '#f5f5f5', 'font-size': '18px' } : light,
+            compareAt: light,
+            button: button,
+          },
+        },
+        cart: { styles: { button: button } },
+        toggle: { styles: { toggle: { 'background-color': '#1e6c93', ':hover': { 'background-color': '#175573' } } } },
+      };
+    }
+
+    function init() {
+      var client = ShopifyBuy.buildClient({
+        domain: '1hkqdb-z1.myshopify.com',
+        storefrontAccessToken: '450d779bef9c8ef58df183cfdf4418d1',
+      });
+      ShopifyBuy.UI.onReady(client).then(function (ui) {
+        document.querySelectorAll('.shopify-product').forEach(function (node) {
+          ui.createComponent('product', {
+            id: node.getAttribute('data-product-id'),
+            node: node,
+            moneyFormat: '%24%7B%7Bamount%7D%7D',
+            options: productOptions(node.getAttribute('data-variant')),
+          });
+        });
+      });
+    }
+  })();
+</script>
+
+<style>
+  .main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 24px;
+  }
+  .unit {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius);
+    padding: 20px;
+    background: var(--c-dark-2);
+  }
+  .unit.featured { border: 2px solid var(--c-teal); }
+  .unit img {
+    width: 100%;
+    border-radius: 8px;
+    background: radial-gradient(ellipse at center, #2b5d75 0%, var(--c-dark) 75%);
+    margin-bottom: 8px;
+  }
+  .badge {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 1;
+    background: var(--c-teal);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .acc-title { margin: 40px 0 16px; color: #f5f5f5; }
+  .accessories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 20px;
+  }
+  .acc {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius);
+    padding: 16px;
+    min-height: 120px;
+  }
+</style>

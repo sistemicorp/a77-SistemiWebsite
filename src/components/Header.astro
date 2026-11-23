@@ -1,0 +1,196 @@
+---
+const p1150Links = [
+  { href: '/p1150', label: 'Overview' },
+  { href: '/p1150/downloads', label: 'Downloads' },
+  { href: '/p1150/videos', label: 'Videos' },
+  { href: '/p1150/faq', label: 'FAQ' },
+  { href: '/p1150/accessories', label: 'Accessories' },
+];
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href);
+const inP1150 = path.startsWith('/p1150');
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href="/" aria-label="Sistemi home">
+      <img src="/logo.svg" alt="" width="28" height="28" class="brand-logo" />
+      <span>SISTEMI</span>
+    </a>
+
+    <details class="mobile-menu">
+      <summary aria-label="Menu">
+        <span></span><span></span><span></span>
+      </summary>
+      <nav aria-label="Main (mobile)">
+        <a href="/" aria-current={isActive('/') ? 'page' : undefined}>Home</a>
+        <span class="group-label">P1150</span>
+        {p1150Links.map((l) => (
+          <a class="sub" href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
+        ))}
+        <a href="/team" aria-current={isActive('/team') ? 'page' : undefined}>Team</a>
+      </nav>
+    </details>
+
+    <nav class="desktop-nav" aria-label="Main">
+      <a href="/" aria-current={isActive('/') ? 'page' : undefined}>Home</a>
+      <div class="dropdown">
+        <a href="/p1150" class:list={[{ active: inP1150 }]}>P1150 <span aria-hidden="true">▾</span></a>
+        <div class="dropdown-menu">
+          {p1150Links.map((l) => (
+            <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
+          ))}
+        </div>
+      </div>
+      <a href="/team" aria-current={isActive('/team') ? 'page' : undefined}>Team</a>
+    </nav>
+  </div>
+
+  {inP1150 && (
+    <div class="subnav">
+      <div class="container">
+        {p1150Links.map((l) => (
+          <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
+        ))}
+      </div>
+    </div>
+  )}
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--c-dark);
+    color: #fff;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.25rem;
+    letter-spacing: 0.18em;
+  }
+  .brand-logo { filter: invert(1); }
+
+  .desktop-nav { display: none; gap: 4px; align-items: center; }
+  .desktop-nav > a,
+  .dropdown > a {
+    color: #d7e0e4;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 8px 14px;
+    border-radius: 6px;
+  }
+  .desktop-nav > a:hover,
+  .dropdown > a:hover,
+  .desktop-nav > a[aria-current='page'],
+  .dropdown > a.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .dropdown { position: relative; }
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    padding: 8px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  }
+  .dropdown:hover .dropdown-menu,
+  .dropdown:focus-within .dropdown-menu { display: block; }
+  .dropdown-menu a {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: var(--c-ink);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+  .dropdown-menu a:hover,
+  .dropdown-menu a[aria-current='page'] { background: var(--c-bg-alt); color: var(--c-accent); }
+
+  .subnav {
+    background: var(--c-dark-2);
+    overflow-x: auto;
+  }
+  .subnav .container { display: flex; gap: 4px; }
+  .subnav a {
+    color: #b9c6cc;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 10px 12px;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+  }
+  .subnav a:hover { color: #fff; }
+  .subnav a[aria-current='page'] { color: #fff; border-bottom-color: var(--c-teal); }
+
+  /* Mobile menu */
+  .mobile-menu { position: relative; }
+  .mobile-menu summary {
+    list-style: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px;
+  }
+  .mobile-menu summary::-webkit-details-marker { display: none; }
+  .mobile-menu summary span { display: block; height: 2px; background: #fff; border-radius: 2px; }
+  .mobile-menu nav {
+    position: absolute;
+    right: 0;
+    top: 48px;
+    width: min(260px, calc(100vw - 32px));
+    background: #fff;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-menu nav a {
+    color: var(--c-ink);
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+  }
+  .mobile-menu nav a.sub { padding-left: 24px; font-weight: 400; }
+  .mobile-menu nav a[aria-current='page'] { background: var(--c-bg-alt); color: var(--c-accent); }
+  .group-label {
+    padding: 10px 12px 2px;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--c-muted);
+    font-weight: 700;
+  }
+
+  @media (min-width: 760px) {
+    .desktop-nav { display: flex; }
+    .mobile-menu { display: none; }
+  }
+</style>

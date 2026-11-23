@@ -1,0 +1,24 @@
+---
+// Layout for Markdown pages (e.g. the FAQ). Set `title`, `description` in the
+// Markdown frontmatter, and `layout: ../../layouts/Prose.astro`.
+import Base from './Base.astro';
+import ContactNote from '../components/ContactNote.astro';
+
+const { frontmatter } = Astro.props;
+---
+
+<Base title={frontmatter.title} description={frontmatter.description}>
+  <section class="page-head">
+    <div class="container">
+      <h1>{frontmatter.heading ?? frontmatter.title}</h1>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <ContactNote />
+      <article class="prose">
+        <slot />
+      </article>
+    </div>
+  </section>
+</Base>
